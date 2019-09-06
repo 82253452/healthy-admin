@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        .echart {
+            width: 800px;
+            height: 500px;
+        }
+
+        @media (max-width: 980px) {
+            .echart {
+                width: 100%;
+                height: 100vh;
+            }
+        }
+
+        .header > div {
+            float: left;
+            width: 10%;
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #999;
+            text-align: center;
+        }
+
+        .clumn > div {
+            float: left;
+            width: 10%;
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #999;
+            text-align: center;
+        }
+
+        .header {
+            width: 100%;
+            height: 30px;
+            display: flex;
+        }
+
+        .clumn {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+<div class="echart">
+    <div class="header">
+        <div>群组id</div>
+        <div>群组名称</div>
+<!--        <div>老师</div>-->
+        <div>总数</div>
+        <div>图片</div>
+        <div>视频</div>
+        <div>链接</div>
+        <div>其他</div>
+    </div>
+    <div id="table">
+
+    </div>
+</div>
+
+<script>
+    var url = 'http://localhost:8080/wexin/getAllGroups'
+    // var url = 'https://zhihuizhan.net/wexin/getAllGroups'
+    $(function () {
+        var names = '?醍胡冠顶?,yp'
+        $.get(url, {name: ch2Unicdoe(names)}, function (data) {
+            data.result.forEach(d => {
+                $('#table').append('<div class="clumn">' +
+                    '<div>' + d.Gid + '</div>' +
+                    '<div>' + unescape(d.Gname.replace(/\\u/gi, '%u')) + '</div>' +
+                    // '<div>' + unescape(d.Nickname.replace(/\\u/gi, '%u')) + '</div>' +
+                    '<div>' + d.TotalNum + '</div>' +
+                    '<div>' + d.ImgNum + '</div>' +
+                    '<div>' + d.VideoNum + '</div>' +
+                    '<div>' + d.LinkNum + '</div>' +
+                    '<div>' + d.TextNum + '</div>' +
+                    '</div>')
+            })
+        })
+    })
+
+    function ch2Unicdoe(str) {
+        if (!str) {
+            return;
+        }
+        var unicode = '';
+        for (var i = 0; i < str.length; i++) {
+            var temp = str.charAt(i);
+            if (isChinese(temp)) {
+                unicode += '\\u' + temp.charCodeAt(0).toString(16).toLocaleUpperCase();
+            } else {
+                unicode += temp;
+            }
+        }
+        return unicode;
+    }
+
+    // 判断字符是否为汉字，
+    function isChinese(s) {
+        return /[\u4e00-\u9fa5]/.test(s);
+    }
+</script>
+</body>
+</html>

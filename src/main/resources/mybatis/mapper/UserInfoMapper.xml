@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlsx.comzlsx.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.zlsx.comzlsx.domain.UserInfo">
+    <!--@mbg.generated generated on Fri Aug 23 11:21:17 CST 2019.-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="sex" jdbcType="TINYINT" property="sex" />
+    <result column="account_balance" jdbcType="DECIMAL" property="accountBalance" />
+    <result column="integration" jdbcType="INTEGER" property="integration" />
+    <result column="vip_expire_time" jdbcType="TIMESTAMP" property="vipExpireTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Fri Aug 23 11:21:17 CST 2019.-->
+    id, nick_name, avatar, phone, birthday, sex, account_balance, integration, vip_expire_time, 
+    `status`, create_time, update_time, deleted
+  </sql>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated generated on Fri Aug 23 11:21:17 CST 2019.-->
+    insert into user_info
+    (nick_name, avatar, phone, birthday, sex, account_balance, integration, vip_expire_time, 
+      `status`, create_time, update_time, deleted)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.nickName,jdbcType=VARCHAR}, #{item.avatar,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, 
+        #{item.birthday,jdbcType=DATE}, #{item.sex,jdbcType=TINYINT}, #{item.accountBalance,jdbcType=DECIMAL}, 
+        #{item.integration,jdbcType=INTEGER}, #{item.vipExpireTime,jdbcType=TIMESTAMP}, 
+        #{item.status,jdbcType=TINYINT}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleted,jdbcType=BIT})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.zlsx.comzlsx.domain.UserInfo" useGeneratedKeys="true">
+    <!--@mbg.generated generated on Fri Aug 23 11:21:17 CST 2019.-->
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      nick_name,
+      avatar,
+      phone,
+      birthday,
+      sex,
+      account_balance,
+      integration,
+      vip_expire_time,
+      `status`,
+      create_time,
+      update_time,
+      deleted,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      #{nickName,jdbcType=VARCHAR},
+      #{avatar,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR},
+      #{birthday,jdbcType=DATE},
+      #{sex,jdbcType=TINYINT},
+      #{accountBalance,jdbcType=DECIMAL},
+      #{integration,jdbcType=INTEGER},
+      #{vipExpireTime,jdbcType=TIMESTAMP},
+      #{status,jdbcType=TINYINT},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP},
+      #{deleted,jdbcType=BIT},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      sex = #{sex,jdbcType=TINYINT},
+      account_balance = #{accountBalance,jdbcType=DECIMAL},
+      integration = #{integration,jdbcType=INTEGER},
+      vip_expire_time = #{vipExpireTime,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=BIT},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.zlsx.comzlsx.domain.UserInfo" useGeneratedKeys="true">
+    <!--@mbg.generated generated on Fri Aug 23 11:21:17 CST 2019.-->
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="accountBalance != null">
+        account_balance,
+      </if>
+      <if test="integration != null">
+        integration,
+      </if>
+      <if test="vipExpireTime != null">
+        vip_expire_time,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="accountBalance != null">
+        #{accountBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="integration != null">
+        #{integration,jdbcType=INTEGER},
+      </if>
+      <if test="vipExpireTime != null">
+        #{vipExpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="accountBalance != null">
+        account_balance = #{accountBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="integration != null">
+        integration = #{integration,jdbcType=INTEGER},
+      </if>
+      <if test="vipExpireTime != null">
+        vip_expire_time = #{vipExpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    active: dev
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.zlsx.comzlsx.domain
+  mapper-locations: classpath*:mybatis/mapper/*.xml
+mapper:
+  mappers:
+    - tk.mybatis.mapper.common.Mapper
+  not-empty: false
+  identity: MYSQL
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  supportMethodsArguments: true
+  params: count=countSql;pageNum=pageNum;pageSize=pageSize;
+weapp:
+  open:
+    componentAppId: wx2b1b9aa4f2e422c4
+    componentSecret: e48e9d958ae423d7372672f01840f51b
+    componentToken: token
+    componentAesKey: r82FieYYZZ2tTG3Gklh9LBCh3k4Gxtwgsai4n2juvk1

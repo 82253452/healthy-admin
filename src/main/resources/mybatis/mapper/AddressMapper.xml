@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlsx.comzlsx.mapper.AddressMapper">
+    <resultMap id="BaseResultMap" type="com.zlsx.comzlsx.domain.Address">
+        <!--@mbg.generated generated on Fri Aug 30 23:07:27 CST 2019.-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="INTEGER" property="name"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="deleted" jdbcType="BIT" property="deleted"/>
+    </resultMap>
+    <resultMap id="CollectionResultMap" extends="BaseResultMap" type="com.zlsx.comzlsx.dto.response.AddressDto">
+        <collection property="children" select="getChildList" column="id">
+
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated generated on Fri Aug 30 23:07:27 CST 2019.-->
+        id, `name`, `type`, pid, `status`, create_time, update_time, deleted
+    </sql>
+    <update id="updateBatch" parameterType="java.util.List">
+        <!--@mbg.generated generated on Fri Aug 30 23:07:27 CST 2019.-->
+        update address
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="`name` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.name,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="`type` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.type,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="pid = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.pid,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="`status` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.status,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.createTime,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="update_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.updateTime,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="deleted = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.deleted,jdbcType=BIT}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated generated on Fri Aug 30 23:07:27 CST 2019.-->
+        insert into address
+        (`name`, `type`, pid, `status`, create_time, update_time, deleted)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name,jdbcType=INTEGER}, #{item.type,jdbcType=INTEGER}, #{item.pid,jdbcType=INTEGER},
+            #{item.status,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.deleted,jdbcType=BIT})
+        </foreach>
+    </insert>
+    <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.zlsx.comzlsx.domain.Address"
+            useGeneratedKeys="true">
+        <!--@mbg.generated generated on Fri Aug 30 23:07:27 CST 2019.-->
+        insert into address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            `name`,
+            `type`,
+            pid,
+            `status`,
+            create_time,
+            update_time,
+            deleted,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            #{name,jdbcType=INTEGER},
+            #{type,jdbcType=INTEGER},
+            #{pid,jdbcType=INTEGER},
+            #{status,jdbcType=INTEGER},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updateTime,jdbcType=TIMESTAMP},
+            #{deleted,jdbcType=BIT},
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            `name` = #{name,jdbcType=INTEGER},
+            `type` = #{type,jdbcType=INTEGER},
+            pid = #{pid,jdbcType=INTEGER},
+            `status` = #{status,jdbcType=INTEGER},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            deleted = #{deleted,jdbcType=BIT},
+        </trim>
+    </insert>
+    <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.zlsx.comzlsx.domain.Address"
+            useGeneratedKeys="true">
+        <!--@mbg.generated generated on Fri Aug 30 23:07:27 CST 2019.-->
+        insert into address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=BIT},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                `type` = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectTreeList" resultMap="CollectionResultMap">
+        select * from address where 1=1 and type=#{type}
+    </select>
+
+    <select id="getChildList" resultType="com.zlsx.comzlsx.domain.Address">
+        select * from address where 1 = 1 and pid = #{id}
+    </select>
+</mapper>

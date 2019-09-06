@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min.js"></script>
+    <link href="https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        .echart {
+            width: 500px;
+            height: 500px;
+        }
+
+        @media (max-width: 980px) {
+            .echart {
+                width: 100%;
+                height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+<!--查询某个人的发言数-->
+<div>
+    <!--    <input id="name" placeholder="查询个人报表" style="text-align: center;float:left;-->
+    <!--        border: 1px solid #999;text-align: center;line-height: 30px;outline: none;-->
+    <!--    border-radius: 10px;"/>-->
+    <!--    <div style="float:left;width: 50px;height: 30px;-->
+    <!--    border: 1px solid #999;text-align: center;line-height: 30px;-->
+    <!--    margin-left:20px;-->
+    <!--    border-radius: 10px;-->
+    <!--   font-size:10px;" id="query">查询-->
+    <!--    </div>-->
+</div>
+<div class="echart">
+    <canvas id="myChart"></canvas>
+</div>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var url = 'https://zhihuizhan.net/wexin/getAllNames'
+    // var url = 'http://114.115.250.201:8007/wexin/getAllNames'
+    $(function () {
+        $.get(url, function (data) {
+            // var labels = data.result.map(d = > d.Nickname)
+            var labels = data.result.map(d => unescape(d.Nickname.replace(/\\u/gi, '%u')))
+            var dataSet = data.result.map(d => d.Num)
+            console.log(dataSet)
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '发言数',
+                        data: dataSet,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        })
+        $('#query').click(function () {
+            var v = $('#name').val();
+            if (!v) {
+                alert('请输入姓名');
+                return;
+            }
+            $.get('http://localhost:8007/wexin/getNameLine?name=' + v, function (data) {
+                if (!data || !data.result || !data.result.length) {
+                    alert('无数据');
+                    return;
+                }
+                var labels = data.result.map(d => d.Ctime)
+                var dataSet = data.result.map(d => d.Num)
+                initEchart(labels, dataSet)
+            })
+        })
+    })
+
+    function initEchart(labels, data) {
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '发言数',
+                    data: data,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

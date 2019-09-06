@@ -1,0 +1,72 @@
+spring:
+  mail:
+    title: restapi测试环境告警
+  datasource:
+    url: jdbc:mysql://123.57.0.122:3409/kj_180821?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong
+    username: dev2
+    password: dev213456
+    initialSize: 10
+    minIdle: 10
+    maxActive: 2000
+    maxWait: 60000
+  redis:
+    host: 47.93.195.129
+    port: 6379
+    database: 0
+mybatis:
+  type-aliases-package: com.zlsx.*.domain
+  mapper-locations: classpath*:mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+mapper:
+  mappers:
+    - tk.mybatis.mapper.common.Mapper
+  not-empty: false
+  identity: MYSQL
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  supportMethodsArguments: true
+  params: count=countSql
+
+jwt:
+  key: 765ba6d523686b08abae457614a0ef1020e00568f23686b08abae1153a95e8b9c
+  exp: 1
+server:
+  port: 8001
+cors:
+  origins: '*'
+swagger:
+  enable: true
+  basePath: restapi
+push:
+  prod_mode: false
+url:
+  dailyQuestion: https://apitest.wokanjian.com.cn/kjwebapp/activity/community/topic.html
+  videoTopic: https://apitest.wokanjian.com.cn/kjwebapp/activity/appWebview/topic.html?videoid=
+  selectedAlbumDetail: https://apitest.wokanjian.com.cn/kjwebapp/activity/appShare/album/index.html?id=
+  newUserTask: https://apitest.wokanjian.com.cn/kjwebapp/activity/appWebview/novicesReward.html
+  communityEntranceUrl:
+    msgUrl: KJopenUrl://KJCommunityModule.login/KJMessagesClass
+    rankUrl: https://apitest.wokanjian.com.cn/kjwebapp/activity/community/rank.html?type=app
+    historyUrl: KJopenUrl://KJCommunityModule/KJCommunityHistoryClass
+    punchUrl: https://apitest.wokanjian.com.cn/kjwebapp/activity/community/punch.html?type=app
+  topic_url:
+    h5TopicUrl: https://apitest.wokanjian.com.cn/kjwebapp/activity/community/index.html?type=app&id={id}
+    h5PkUrl: https://apitest.wokanjian.com.cn/kjwebapp/activity/community/pk.html?type=app&id={id}
+    h5QuestionUrl: https://apitest.wokanjian.com.cn/kjwebapp/activity/community/question.html?type=app&id={id}
+h5:
+  url: https://apitest.wokanjian.com.cn/kjwebapp/activity/appWebview/article.html?id=
+enter_group:
+  topic_id: 108
+weapp:
+  config:
+    preAuthUrl: http://test.wokanjian.com.cn/adminapi/notify/authorizerRefreshToken
+  open:
+    componentAppId: wx2b1b9aa4f2e422c4
+    componentSecret: e48e9d958ae423d7372672f01840f51b
+    componentToken: token
+    componentAesKey: r82FieYYZZ2tTG3Gklh9LBCh3k4Gxtwgsai4n2juvk1

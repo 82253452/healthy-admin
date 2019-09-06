@@ -1,0 +1,14 @@
+spring:
+  mail:
+    title: restapi本地环境告警
+  datasource:
+    url: jdbc:mysql://47.93.195.129:3306/zlsx?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong&allowMultiQueries=true
+    username: root
+    password: root
+  redis:
+    host: 47.93.195.129
+    port: 6379
+    database: 0
+jwt:
+  key: 765ba6d523686b08abae457614a0ef1020e00568f23686b08abae1153a95e8b9c
+  exp: 1

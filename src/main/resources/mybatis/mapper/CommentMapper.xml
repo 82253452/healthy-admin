@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlsx.comzlsx.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.zlsx.comzlsx.domain.Comment">
+        <!--@mbg.generated generated on Fri Aug 23 14:04:50 CST 2019.-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="images" jdbcType="VARCHAR" property="images"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="deleted" jdbcType="BIT" property="deleted"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="CollectionResultMap" extends="BaseResultMap" type="com.zlsx.comzlsx.dto.response.CommentDto">
+        <collection property="childList" select="getChildList" column="id">
+
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated generated on Fri Aug 23 14:04:50 CST 2019.-->
+        id, user_id, article_id, content, images, `type`, deleted, create_time, update_time
+    </sql>
+    <update id="updateBatch" parameterType="java.util.List">
+        <!--@mbg.generated generated on Fri Aug 23 14:04:50 CST 2019.-->
+        update comment
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="user_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.userId,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="article_id = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.articleId,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="content = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.content,jdbcType=LONGVARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="images = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.images,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="`type` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.type,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="deleted = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.deleted,jdbcType=BIT}
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.createTime,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="update_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=INTEGER} then #{item.updateTime,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated generated on Fri Aug 23 14:04:50 CST 2019.-->
+        insert into comment
+        (user_id, article_id, content, images, `type`, deleted, create_time, update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.userId,jdbcType=VARCHAR}, #{item.articleId,jdbcType=INTEGER}, #{item.content,jdbcType=LONGVARCHAR},
+            #{item.images,jdbcType=VARCHAR}, #{item.type,jdbcType=INTEGER}, #{item.deleted,jdbcType=BIT},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="com.zlsx.comzlsx.domain.Comment"
+            useGeneratedKeys="true">
+        <!--@mbg.generated generated on Fri Aug 23 14:04:50 CST 2019.-->
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            user_id,
+            article_id,
+            content,
+            images,
+            `type`,
+            deleted,
+            create_time,
+            update_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            #{userId,jdbcType=VARCHAR},
+            #{articleId,jdbcType=INTEGER},
+            #{content,jdbcType=LONGVARCHAR},
+            #{images,jdbcType=VARCHAR},
+            #{type,jdbcType=INTEGER},
+            #{deleted,jdbcType=BIT},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updateTime,jdbcType=TIMESTAMP},
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            user_id = #{userId,jdbcType=VARCHAR},
+            article_id = #{articleId,jdbcType=INTEGER},
+            content = #{content,jdbcType=LONGVARCHAR},
+            images = #{images,jdbcType=VARCHAR},
+            `type` = #{type,jdbcType=INTEGER},
+            deleted = #{deleted,jdbcType=BIT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </trim>
+    </insert>
+    <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="com.zlsx.comzlsx.domain.Comment"
+            useGeneratedKeys="true">
+        <!--@mbg.generated generated on Fri Aug 23 14:04:50 CST 2019.-->
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="images != null">
+                images,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="articleId != null">
+                #{articleId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="images != null">
+                #{images,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=BIT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="articleId != null">
+                article_id = #{articleId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="images != null">
+                images = #{images,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                `type` = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=BIT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectCommontByTree" resultMap="CollectionResultMap">
+        select tc.id,
+             tc.user_id,
+             tc.content,
+             tc.deleted,
+             tc.create_time,
+             tc.update_time,
+             tc.parent_id,
+             tc.type,
+             u.nick_name,
+             u.avatar
+        from comment tc
+               left join article a on tc.article_id = a.id
+               left join user_info u on tc.user_id = u.id
+        where 1 = 1
+        and tc.deleted = 0
+        and tc.parent_id is null
+        and tc.article_id = #{id}
+        and tc.type= #{type}
+        order by create_time desc
+    </select>
+    <select id="getChildList" resultType="com.zlsx.comzlsx.dto.response.CommentDto">
+        select tc.id,
+               tc.user_id,
+               tc.content,
+               tc.deleted,
+               tc.create_time,
+               tc.update_time,
+               tc.parent_id,
+               tc.type,
+               u.nick_name,
+               u.avatar
+        from comment tc
+                 left join user_info u on tc.user_id = u.id
+        where 1 = 1
+          and tc.deleted = 0
+          and tc.parent_id = #{id}
+          order by create_time desc
+    </select>
+</mapper>
