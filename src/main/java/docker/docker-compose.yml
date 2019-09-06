@@ -7,6 +7,8 @@ networks:
   weixin:
     container_name: healthy
     image: yp/healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
     ports:
       - 8008:8080
     volumes:
