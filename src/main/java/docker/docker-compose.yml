@@ -1,9 +1,9 @@
 version: "3"
-services:
 networks:
   default:
     external:
       name: default-network
+services:
   weixin:
     container_name: healthy
     image: yp/healthy
