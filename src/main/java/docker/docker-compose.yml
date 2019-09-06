@@ -1,0 +1,13 @@
+version: "3"
+services:
+networks:
+  default:
+    external:
+      name: default-network
+  weixin:
+    container_name: healthy
+    image: yp/healthy
+    ports:
+      - 8008:8080
+    volumes:
+      - /etc/localtime:/etc/localtime
