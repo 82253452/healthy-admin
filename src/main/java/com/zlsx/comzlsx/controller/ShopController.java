@@ -2,6 +2,7 @@ package com.zlsx.comzlsx.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zlsx.comzlsx.domain.Shop;
+import com.zlsx.comzlsx.dto.request.GetShopListRequest;
 import com.zlsx.comzlsx.dto.response.ArticleDto;
 import com.zlsx.comzlsx.dto.response.ShopDto;
 import com.zlsx.comzlsx.mapper.ShopMapper;
@@ -28,8 +29,8 @@ public class ShopController {
     }
 
     @GetMapping("/getShopIndex")
-    public Result getShopIndex() throws ForeseenException {
-        List<ShopDto> shops = shopMapper.selectShops();
+    public Result getShopIndex(GetShopListRequest request) throws ForeseenException {
+        List<ShopDto> shops = shopMapper.selectShops(request);
         return Result.ok(shops);
     }
 

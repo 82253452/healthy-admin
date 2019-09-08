@@ -218,6 +218,18 @@
         <if test="type != null">
             and type = #{type}
         </if>
+        <if test="classifyId != null">
+            and classify_id = #{classifyId}
+        </if>
+        <if test="ids != null">
+            and id in
+            <foreach close=")" collection="list" item="item" open="(" separator=", ">
+                #{item}
+            </foreach>
+        </if>
+        <if test="isMember != null">
+            and id in (select article_id from comment where user_id=#{uid})
+        </if>
         order by a.create_time desc
     </select>
     <select id="selectArticleInfo" resultType="com.zlsx.comzlsx.dto.response.ArticleDto">

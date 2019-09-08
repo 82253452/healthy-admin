@@ -12,13 +12,15 @@ import com.zlsx.comzlsx.util.common.CacheKey;
 import com.zlsx.comzlsx.util.common.ForeseenException;
 import com.zlsx.comzlsx.util.common.ShowException;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
@@ -111,6 +113,73 @@ public class ArticleService {
     }
 
     public List<ArticleDto> getArticleList(GetArticleListRequest request) throws ForeseenException {
+        List<ArticleDto> articles = new ArrayList<>();
+        //获取首页文章
+        getArticleIndexArticle(request, articles);
+        //获取用户分享的文章
+        getArticleShreArticle(request, articles);
+        //获取用户点赞文章
+        getUserPraiseArticle(request, articles);
+        //获取用户评论文章
+        getUserCommentArticle(request, articles);
+        //获取用户浏览记录文章
+        getUserBROWSEArticle(request, articles);
+        return articles;
+    }
+
+    private void getArticleIndexArticle(GetArticleListRequest request, List<ArticleDto> articles) {
+        if (request.getSearchType() != null) {
+            return;
+        }
+        List<ArticleDto> articleDtos = selectArticlesDtoByRequest(request);
+        articles.addAll(articleDtos);
+    }
+
+    private void getUserBROWSEArticle(GetArticleListRequest request, List<ArticleDto> articles) throws ForeseenException {
+        if (!ObjectUtils.nullSafeEquals(request.getSearchType(), 3)) {
+            return;
+        }
+        Set<String> members = stringRedisTemplate.opsForSet().members(String.format(CacheKey.ARTICLE_USER_BROWSE, jwtUtils.getUserId()));
+        if (CollectionUtils.isEmpty(members)) {
+            return;
+        }
+        request.setIds(new ArrayList<>(members));
+        List<ArticleDto> articleDtos = selectArticlesDtoByRequest(request);
+        if (articles == null) {
+            return;
+        }
+        articles.addAll(articleDtos);
+    }
+
+    private void getUserCommentArticle(GetArticleListRequest request, List<ArticleDto> articles) {
+        if (!ObjectUtils.nullSafeEquals(request.getSearchType(), 1)) {
+            return;
+        }
+        request.setIsMember(true);
+        List<ArticleDto> articleDtos = selectArticlesDtoByRequest(request);
+        if (articles == null) {
+            return;
+        }
+        articles.addAll(articleDtos);
+    }
+
+    private void getUserPraiseArticle(GetArticleListRequest request, List<ArticleDto> articles) throws ForeseenException {
+        if (!ObjectUtils.nullSafeEquals(request.getSearchType(), 0)) {
+            return;
+        }
+        Set<String> members = stringRedisTemplate.opsForSet().members(String.format(CacheKey.ARTICLE_USER_PRAISE, jwtUtils.getUserId()));
+        if (CollectionUtils.isEmpty(members)) {
+            return;
+        }
+        request.setIds(new ArrayList<>(members));
+        List<ArticleDto> articleDtos = selectArticlesDtoByRequest(request);
+        if (articles == null) {
+            return;
+        }
+        articles.addAll(articleDtos);
+    }
+
+    private List<ArticleDto> selectArticlesDtoByRequest(GetArticleListRequest request) {
         List<ArticleDto> articles = articleMapper.selectAllBuyUserOrderByTime(request);
         articles.forEach(article -> {
             article.setIsPraise(stringRedisTemplate.opsForSet().isMember(String.format(CacheKey.ARTICLE_USER_PRAISE, jwtUtils.getUserIdWithNoExce()), article.getId().toString()));
@@ -118,6 +187,17 @@ public class ArticleService {
             article.setPraiseNum(o == null ? 0 : Integer.valueOf(o.toString()));
         });
         return articles;
+    }
+
+    private void getArticleShreArticle(GetArticleListRequest request, List<ArticleDto> articles) {
+        if (!ObjectUtils.nullSafeEquals(request.getSearchType(), 2)) {
+            return;
+        }
+        List<ArticleDto> articleDtos = selectArticlesDtoByRequest(request);
+        if (articles == null) {
+            return;
+        }
+        articles.addAll(articleDtos);
     }
 
     public List<ArticleDto> getArticleListAbout(PageInfo page) throws ForeseenException {

@@ -56,4 +56,5 @@ public class Article {
     private String video;
     private String title;
     private Integer type;
+    private Integer classifyId;
 }

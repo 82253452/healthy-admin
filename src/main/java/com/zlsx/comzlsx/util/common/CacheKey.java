@@ -11,6 +11,11 @@ public class CacheKey {
      */
     public static final String ARTICLE_BROWSE_TOTLE = "ARTICLE_BROWSE_TOTLE";
     /**
+     * 用户浏览文章
+     * set
+     */
+    public static final String ARTICLE_USER_BROWSE = "ARTICLE_USER_BROWSE_%S";
+    /**
      * 文章点赞
      * ARTICLE_USER_PRAISE_USERID
      */
@@ -44,5 +49,12 @@ public class CacheKey {
      * ARTICLE_USER_COMMENT
      */
     public static final String ARTICLE_USER_COMMENT = "ARTICLE_USER_COMMENT";
-
+    /**
+     * 网站特权卡
+     */
+    public static final String PRIVILEGE_LIST = "PRIVILEGE_LIST";
+    /**
+     * 用户领取特权卡
+     */
+    public static final String PRIVILEGE_LIST_USER = "PRIVILEGE_LIST_USER";
 }

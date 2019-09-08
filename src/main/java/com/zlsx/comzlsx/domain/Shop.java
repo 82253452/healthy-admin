@@ -78,4 +78,6 @@ public class Shop {
     private Integer classifyId;
     @Column(name = "address_id")
     private Integer addressId;
+
+    private Integer percapita;
 }

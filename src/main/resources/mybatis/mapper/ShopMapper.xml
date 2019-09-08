@@ -259,7 +259,13 @@
       select *,
        (select name from classify where id = s.classify_id) as classifyName,
        (select name from address where id = s.address_id)   as addressName
-        from shop s
+        from shop s where 1=1
+      <if test="classifyId != null">
+      and  classify_id = #{classifyId}
+    </if>
+      <if test="addressId != null">
+        and  address_id = #{addressId}
+      </if>
     </select>
     <select id="getArticleListAbout" resultType="com.zlsx.comzlsx.domain.Shop">
       SELECT *
