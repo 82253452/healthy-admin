@@ -10,3 +10,9 @@ spring:
 jwt:
   key: 765ba6d523686b08abae457614a0ef1020e00568f23686b08abae1153a95e8b9c
   exp: 1
+weapp:
+  open:
+    componentAppId: wx45a4a88f12821319
+    componentSecret: d39bc9471c30be91f7818df6ada3c259
+    componentToken: token
+    componentAesKey: r82FieYYZZ2tTG3Gklh9LBCh3k4Gxtwgsai4n2juvk1
