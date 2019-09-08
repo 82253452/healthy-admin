@@ -28,8 +28,8 @@ public class UserController {
     private JWTUtils jwtUtils;
 
     @GetMapping("/login")
-    public Result login(String code) throws ForeseenException {
-        UserInfoDto weChatUser = userInfoService.getWeChatUser("", code);
+    public Result login(String code,String appId) throws ForeseenException {
+        UserInfoDto weChatUser = userInfoService.getWeChatUser(appId, code);
         return Result.ok(weChatUser);
     }
 

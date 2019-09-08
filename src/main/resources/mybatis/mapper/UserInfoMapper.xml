@@ -136,6 +136,9 @@
       <if test="deleted != null">
         deleted,
       </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
     </trim>
     values
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -176,7 +179,10 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="deleted != null">
-        #{deleted,jdbcType=BIT},
+      #{deleted,jdbcType=BIT},
+    </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
       </if>
     </trim>
     on duplicate key update 
@@ -218,7 +224,10 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="deleted != null">
-        deleted = #{deleted,jdbcType=BIT},
+      deleted = #{deleted,jdbcType=BIT},
+    </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
