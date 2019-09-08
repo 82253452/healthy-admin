@@ -51,7 +51,7 @@ public class UserInfoService {
             WxMpUser user = wxMpService.oauth2getUserInfo(accessToken, null);
             UserInfo userInfo = new UserInfo();
             userInfo.setUnionId(userInfo.getUnionId());
-            userInfo = Optional.ofNullable(userInfo = userInfoMapper.selectOne(userInfo)).orElse(new UserInfo());
+            userInfo = Optional.ofNullable(userInfoMapper.selectOne(userInfo)).orElse(new UserInfo());
             userInfo.setUnionId(user.getUnionId());
             userInfo.setNickName(user.getNickname());
             userInfo.setAvatar(user.getHeadImgUrl());
