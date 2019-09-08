@@ -139,6 +139,9 @@
       <if test="introduction != null">
         introduction,
       </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
     </trim>
     values
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -184,8 +187,11 @@
       <if test="introduction != null">
         #{introduction,jdbcType=VARCHAR},
       </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
     </trim>
-    on duplicate key update 
+    on duplicate key update
     <trim suffixOverrides=",">
       <if test="id != null">
         id = #{id,jdbcType=INTEGER},
@@ -229,6 +235,10 @@
       <if test="introduction != null">
         introduction = #{introduction,jdbcType=VARCHAR},
       </if>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+
     </trim>
   </insert>
     <select id="selectUserList" resultMap="BaseResultMap">
