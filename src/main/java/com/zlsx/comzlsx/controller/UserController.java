@@ -1,16 +1,17 @@
 package com.zlsx.comzlsx.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.zlsx.comzlsx.common.JWTUtils;
+import com.zlsx.comzlsx.domain.Classify;
 import com.zlsx.comzlsx.domain.UserInfo;
 import com.zlsx.comzlsx.dto.UserInfoDto;
+import com.zlsx.comzlsx.dto.request.GetUserListRequest;
 import com.zlsx.comzlsx.mapper.UserInfoMapper;
 import com.zlsx.comzlsx.service.UserInfoService;
 import com.zlsx.comzlsx.util.common.ForeseenException;
 import com.zlsx.comzlsx.util.common.Result;
 import me.chanjar.weixin.open.api.WxOpenService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -42,5 +43,22 @@ public class UserController {
     public Result getUserInfo() throws ForeseenException {
         UserInfo userInfo = userInfoMapper.selectByPrimaryKey(jwtUtils.getUserId());
         return Result.ok(userInfo);
+    }
+
+    @GetMapping("/list")
+    public Result list(GetUserListRequest request) throws ForeseenException {
+        PageInfo page = new PageInfo(userInfoMapper.selectUserList(request));
+        return Result.ok(page);
+    }
+
+    @PostMapping("/saveOrUpdate")
+    public Result saveOrUpdate(@RequestBody UserInfo userInfo) throws ForeseenException {
+        userInfoMapper.insertOrUpdateSelective(userInfo);
+        return Result.ok();
+    }
+    @GetMapping("/delete/{id}")
+    public Result deleteData(@PathVariable Integer id) throws ForeseenException {
+        userInfoMapper.deleteByPrimaryKey(id);
+        return Result.ok();
     }
 }

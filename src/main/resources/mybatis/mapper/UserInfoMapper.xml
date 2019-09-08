@@ -222,4 +222,7 @@
       </if>
     </trim>
   </insert>
+    <select id="selectUserList" resultMap="BaseResultMap">
+      select * from user_info order by create_time desc
+    </select>
 </mapper>
