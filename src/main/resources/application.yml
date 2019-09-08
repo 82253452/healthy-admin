@@ -19,7 +19,7 @@ pagehelper:
   params: count=countSql;pageNum=pageNum;pageSize=pageSize;
 weapp:
   open:
-    componentAppId: wx2b1b9aa4f2e422c4
-    componentSecret: e48e9d958ae423d7372672f01840f51b
+    componentAppId: wx45a4a88f12821319
+    componentSecret: d39bc9471c30be91f7818df6ada3c259
     componentToken: token
     componentAesKey: r82FieYYZZ2tTG3Gklh9LBCh3k4Gxtwgsai4n2juvk1
