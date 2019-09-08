@@ -86,4 +86,5 @@ public class UserInfo {
     @Column(name = "deleted")
     private Boolean deleted;
     private String introduction;
+    private String unionId;
 }

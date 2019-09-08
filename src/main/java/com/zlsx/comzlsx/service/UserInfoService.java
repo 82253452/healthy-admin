@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserInfoService {
@@ -49,6 +50,9 @@ public class UserInfoService {
             WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(code);
             WxMpUser user = wxMpService.oauth2getUserInfo(accessToken, null);
             UserInfo userInfo = new UserInfo();
+            userInfo.setUnionId(userInfo.getUnionId());
+            userInfo = Optional.ofNullable(userInfo = userInfoMapper.selectOne(userInfo)).orElse(new UserInfo());
+            userInfo.setUnionId(user.getUnionId());
             userInfo.setNickName(user.getNickname());
             userInfo.setAvatar(user.getHeadImgUrl());
             userInfo.setPhone("");
@@ -60,7 +64,7 @@ public class UserInfoService {
             userInfo.setCreateTime(new Date());
             userInfo.setUpdateTime(new Date());
             userInfo.setDeleted(false);
-            userInfoMapper.insert(userInfo);
+            userInfoMapper.insertOrUpdateSelective(userInfo);
             String xToken =
                     jwtUtils.createKey(
                             String.valueOf(userInfo.getId()),
