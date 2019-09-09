@@ -71,7 +71,7 @@ public class JWTUtils {
         return claims;
     }
 
-    public String getUserIdWithNoExce() {
+    public String getUserIdWithNoExce() throws ForeseenException {
         String token = request.getHeader("TOKEN");
         if (StringUtils.isBlank(token)) {
             return "";
@@ -80,10 +80,9 @@ public class JWTUtils {
         try {
             claims = parseBody(token);
             return claims.get("userId").toString();
-        } catch (SignatureException e) {
-            log.info("未登录，用户id返回空");
+        } catch (Exception e) {
+            throw new ForeseenException(ResultCode.AUTH_FAILED, "解析token失败");
         }
-        return "";
     }
 
     public Integer getUserId() throws ForeseenException {
