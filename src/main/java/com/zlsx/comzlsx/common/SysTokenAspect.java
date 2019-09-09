@@ -36,7 +36,7 @@ public class SysTokenAspect {
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .getRequest();
-        String token = request.getHeader("X-Token");
+        String token = request.getHeader("Token");
         //String jToken = null;
         //Map<String, String[]> map = request.getParameterMap();
 //        if (map.get("token") == null && StringUtils.isEmpty(token)) {

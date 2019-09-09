@@ -1,6 +1,8 @@
 package com.zlsx.comzlsx.util.common;
 
 import com.alibaba.fastjson.JSON;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -158,6 +160,20 @@ public class ExceptionHandlerAdvice {
         } catch (Exception innerex) {
 
         }
+        return result;
+    }
+    @ExceptionHandler(value = {ExpiredJwtException.class})
+    @ResponseStatus(value = HttpStatus.OK)
+    public Object expiredJwtException(final Exception ex, final ServletWebRequest req) {
+        Result result = new Result();
+        ConstraintViolationException fex = (ConstraintViolationException) ex;
+        result.setSuccess(false);
+        result.setCode(ResultCode.AUTH_FAILED);
+        for (ConstraintViolation<?> constraintViolation : fex.getConstraintViolations()) {
+            result.setErrorMsg(constraintViolation.getMessage());
+            break;
+        }
+        log.info("身份过期");
         return result;
     }
 
