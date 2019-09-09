@@ -44,4 +44,5 @@ public class Classify {
 
     @Column(name = "deleted")
     private Boolean deleted;
+    private String image;
 }
