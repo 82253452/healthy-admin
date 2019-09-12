@@ -79,5 +79,12 @@ public class Shop {
     @Column(name = "address_id")
     private Integer addressId;
 
+    /**
+     * 人均
+     */
     private Integer percapita;
+    /**
+     * 评分
+     */
+    private Integer rate;
 }

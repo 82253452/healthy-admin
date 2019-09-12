@@ -78,7 +78,7 @@
     where id in
     <foreach close=")" collection="list" item="item" open="(" separator=", ">
       #{item.id,jdbcType=INTEGER}
-    </foreach>
+    </foreach>1
   </update>
   <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     <!--@mbg.generated generated on Fri Aug 23 14:04:50 CST 2019.-->
@@ -181,6 +181,21 @@
       <if test="deleted != null">
         deleted,
       </if>
+      <if test="classifyId != null">
+        classify_id,
+      </if>
+      <if test="addressId != null">
+        address_id,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="percapita != null">
+        percapita,
+      </if>
+      <if test="rate != null">
+        rate,
+      </if>
     </trim>
     values
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -215,8 +230,24 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="deleted != null">
-        #{deleted,jdbcType=BIT},
+        #{deleted,jdbcType=BIT}
+        ,
       </if>
+      <if test="classifyId != null">
+      #{classifyId}
+      ,
+    </if><if test="addressId != null">
+      #{addressId}
+      ,
+    </if><if test="image != null">
+      #{image}
+      ,
+    </if><if test="percapita != null">
+      #{percapita}
+      ,
+    </if><if test="rate != null">
+      #{rate},
+    </if>
     </trim>
     on duplicate key update 
     <trim suffixOverrides=",">
@@ -253,10 +284,25 @@
       <if test="deleted != null">
         deleted = #{deleted,jdbcType=BIT},
       </if>
+      <if test="classifyId != null">
+        classify_id = #{classifyId,jdbcType=BIT},
+      </if>
+      <if test="addressId != null">
+        address_id = #{addressId,jdbcType=BIT},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=BIT},
+      </if>
+      <if test="percapita != null">
+        percapita = #{percapita,jdbcType=BIT},
+      </if>
+      <if test="rate != null">
+        rate = #{rate,jdbcType=BIT},
+      </if>
     </trim>
   </insert>
     <select id="selectShops" resultType="com.zlsx.comzlsx.dto.response.ShopDto">
-      select *,
+      select s.*,
        (select name from classify where id = s.classify_id) as classifyName,
        (select name from address where id = s.address_id)   as addressName
         from shop s where 1=1
