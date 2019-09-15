@@ -1,5 +1,6 @@
 package com.zlsx.comzlsx.dto.response;
 
+import com.zlsx.comzlsx.domain.UserInfo;
 import lombok.Data;
 
 
@@ -7,7 +8,7 @@ import lombok.Data;
  * @author admin
  */
 @Data
-public class UserInfoDto {
+public class UserInfoDto extends UserInfo {
     private String userName;
 
     private String photoUrl;
