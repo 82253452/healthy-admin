@@ -107,7 +107,7 @@ public class UserInfoService {
         comment.setUserId(userId);
         int count = commentMapper.selectCount(comment);
         //获取用户分享数
-        Object o = Optional.ofNullable(stringRedisTemplate.opsForHash().get(CacheKey.ARTICLE_USER_SHARE, userId)).orElse(0);
+        Object o = Optional.ofNullable(stringRedisTemplate.opsForHash().get(CacheKey.ARTICLE_USER_SHARE, userId.toString())).orElse(0);
         userInfoDto.setUserShareNum(Long.valueOf(o.toString()));
         //获取用户浏览记录数
         Long size1 = stringRedisTemplate.opsForSet().size(String.format(CacheKey.ARTICLE_USER_BROWSE, userId));

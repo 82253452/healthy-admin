@@ -41,8 +41,7 @@ public class UserController {
     @GetMapping("/getUserInfo")
     public Result getUserInfo() throws ForeseenException {
         UserInfoDto userInfoDto = userInfoService.getUserInfoDto(jwtUtils.getUserId());
-        UserInfo userInfo = userInfoMapper.selectByPrimaryKey(jwtUtils.getUserId());
-        return Result.ok(userInfo);
+        return Result.ok(userInfoDto);
     }
 
     @GetMapping("/list")
