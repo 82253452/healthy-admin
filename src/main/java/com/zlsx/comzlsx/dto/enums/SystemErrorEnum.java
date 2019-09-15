@@ -13,6 +13,7 @@ public enum SystemErrorEnum {
      *
      */
     NOT_FOUND_INDEX(1001, "id 不存在"),
+    USER_EXP(100, "用户信息异常"),
 
     HOUR(4, "小时");
 

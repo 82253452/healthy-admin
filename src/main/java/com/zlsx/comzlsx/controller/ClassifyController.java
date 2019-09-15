@@ -1,13 +1,9 @@
 package com.zlsx.comzlsx.controller;
 
 import com.zlsx.comzlsx.domain.Classify;
-import com.zlsx.comzlsx.dto.UserInfoDto;
 import com.zlsx.comzlsx.mapper.ClassifyMapper;
-import com.zlsx.comzlsx.mapper.UserInfoMapper;
-import com.zlsx.comzlsx.service.UserInfoService;
 import com.zlsx.comzlsx.util.common.ForeseenException;
 import com.zlsx.comzlsx.util.common.Result;
-import me.chanjar.weixin.open.api.WxOpenService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

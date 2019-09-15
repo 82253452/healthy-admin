@@ -2,9 +2,8 @@ package com.zlsx.comzlsx.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zlsx.comzlsx.common.JWTUtils;
-import com.zlsx.comzlsx.domain.Classify;
 import com.zlsx.comzlsx.domain.UserInfo;
-import com.zlsx.comzlsx.dto.UserInfoDto;
+import com.zlsx.comzlsx.dto.response.UserInfoDto;
 import com.zlsx.comzlsx.dto.request.GetUserListRequest;
 import com.zlsx.comzlsx.mapper.UserInfoMapper;
 import com.zlsx.comzlsx.service.UserInfoService;
@@ -28,7 +27,7 @@ public class UserController {
     private JWTUtils jwtUtils;
 
     @GetMapping("/login")
-    public Result login(String code,String appId) throws ForeseenException {
+    public Result login(String code, String appId) throws ForeseenException {
         UserInfoDto weChatUser = userInfoService.getWeChatUser(appId, code);
         return Result.ok(weChatUser);
     }
@@ -41,6 +40,7 @@ public class UserController {
 
     @GetMapping("/getUserInfo")
     public Result getUserInfo() throws ForeseenException {
+        UserInfoDto userInfoDto = userInfoService.getUserInfoDto(jwtUtils.getUserId());
         UserInfo userInfo = userInfoMapper.selectByPrimaryKey(jwtUtils.getUserId());
         return Result.ok(userInfo);
     }
@@ -56,6 +56,7 @@ public class UserController {
         userInfoMapper.insertOrUpdateSelective(userInfo);
         return Result.ok();
     }
+
     @GetMapping("/delete/{id}")
     public Result deleteData(@PathVariable Integer id) throws ForeseenException {
         userInfoMapper.deleteByPrimaryKey(id);

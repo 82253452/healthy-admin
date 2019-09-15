@@ -57,4 +57,9 @@ public class CacheKey {
      * 用户领取特权卡
      */
     public static final String PRIVILEGE_LIST_USER = "PRIVILEGE_LIST_USER";
+    /**
+     * 用户分享
+     * map
+     */
+    public static final String ARTICLE_USER_SHARE = "ARTICLE_USER_SHARE";
 }
