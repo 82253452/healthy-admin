@@ -16,4 +16,8 @@ public class ArticleDto extends Article {
     private Integer commentNum;
     private Integer keepNum;
     private Integer browseNum;
+    /**
+     * 是否关注
+     */
+    private Boolean isAttented;
 }

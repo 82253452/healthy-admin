@@ -76,6 +76,9 @@ public class ArticleService {
         //是否收藏
         Boolean isKeep = stringRedisTemplate.opsForSet().isMember(String.format(CacheKey.ARTICLE_USER_KEEP, jwtUtils.getUserIdWithNoExce()), articleDto.getId().toString());
         articleDto.setIsKeep(isKeep);
+        //是否关注
+        Boolean isAttented = stringRedisTemplate.opsForSet().isMember(String.format(CacheKey.ARTICLE_USER_ATTENTION, jwtUtils.getUserIdWithNoExce()), articleDto.getUserId().toString());
+        articleDto.setIsAttented(isAttented);
         return articleDto;
     }
 
