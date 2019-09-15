@@ -16,6 +16,12 @@ public class CacheKey {
      */
     public static final String ARTICLE_USER_BROWSE = "ARTICLE_USER_BROWSE_%S";
     /**
+     * 用户文章被浏览量
+     * map
+     * ARTICLE_USER_VIEWED_userid
+     */
+    public static final String ARTICLE_USER_VIEWED = "ARTICLE_USER_VIEWED";
+    /**
      * 文章点赞
      * ARTICLE_USER_PRAISE_USERID
      */
@@ -62,4 +68,16 @@ public class CacheKey {
      * map
      */
     public static final String ARTICLE_USER_SHARE = "ARTICLE_USER_SHARE";
+    /**
+     * 用户关注列表
+     * set
+     * ARTICLE_USER_ATTENTION_userId
+     */
+    public static final String ARTICLE_USER_ATTENTION = "ARTICLE_USER_ATTENTION_%s";
+    /**
+     * 用户粉丝列表
+     * set
+     * ARTICLE_USER_FAN_userId
+     */
+    public static final String ARTICLE_USER_FAN = "ARTICLE_USER_FAN_%s";
 }

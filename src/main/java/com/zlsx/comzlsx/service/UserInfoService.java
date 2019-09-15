@@ -15,6 +15,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.open.api.WxOpenService;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -111,6 +112,28 @@ public class UserInfoService {
         //获取用户浏览记录数
         Long size1 = stringRedisTemplate.opsForSet().size(String.format(CacheKey.ARTICLE_USER_BROWSE, userId));
         userInfoDto.setUserBrowseNum(size1);
+        //获取用户粉丝
+        Long size2 = stringRedisTemplate.opsForSet().size(String.format(CacheKey.ARTICLE_USER_FAN, userId));
+        userInfoDto.setUserFenNums(size2);
+        //获取用户关注
+        Long size3 = stringRedisTemplate.opsForSet().size(String.format(CacheKey.ARTICLE_USER_ATTENTION, userId));
+        userInfoDto.setUserAttentionNums(size3);
+        //获取用户被浏览量
+        Object o1 = Optional.ofNullable(stringRedisTemplate.opsForHash().get(CacheKey.ARTICLE_USER_VIEWED, userId.toString())).orElse(0);
+        userInfoDto.setUserViewedNums(Long.valueOf(o1.toString()));
         return userInfoDto;
+    }
+
+
+    public void attentionUser(Integer id) throws ForeseenException {
+        if (BooleanUtils.isTrue(stringRedisTemplate.opsForSet().isMember(String.format(CacheKey.ARTICLE_USER_ATTENTION, jwtUtils.getUserId()), id.toString()))) {
+            //加关注缓存
+            stringRedisTemplate.opsForSet().remove(String.format(CacheKey.ARTICLE_USER_ATTENTION, id.toString()), jwtUtils.getUserId().toString());
+            //加粉丝缓存
+            stringRedisTemplate.opsForSet().remove(String.format(CacheKey.ARTICLE_USER_FAN, jwtUtils.getUserId()), id.toString());
+        } else {
+            stringRedisTemplate.opsForSet().add(String.format(CacheKey.ARTICLE_USER_ATTENTION, jwtUtils.getUserId()), id.toString());
+            stringRedisTemplate.opsForSet().add(String.format(CacheKey.ARTICLE_USER_FAN, id.toString()), jwtUtils.getUserId().toString());
+        }
     }
 }

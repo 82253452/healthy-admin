@@ -62,4 +62,17 @@ public class UserController {
         userInfoMapper.deleteByPrimaryKey(id);
         return Result.ok();
     }
+
+    /**
+     * 关注 取消关注
+     *
+     * @param id
+     * @return
+     * @throws ForeseenException
+     */
+    @GetMapping("/attention/{id}")
+    public Result attention(@PathVariable Integer id) throws ForeseenException {
+        userInfoService.attentionUser(id);
+        return Result.ok();
+    }
 }

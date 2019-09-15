@@ -31,4 +31,17 @@ public class UserInfoDto {
      * 用户浏览记录
      */
     private Long userBrowseNum;
+    /**
+     * 用户粉丝
+     */
+    private Long userFenNums;
+    /**
+     * 用户关注
+     */
+    private Long userAttentionNums;
+    /**
+     * 用户被浏览量
+     */
+    private Long userViewedNums;
+
 }

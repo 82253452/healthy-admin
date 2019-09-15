@@ -56,6 +56,8 @@ public class ArticleService {
         ArticleDto articleDto = Optional.ofNullable(articleMapper.selectArticleInfo(id)).orElseThrow(() -> new ShowException(SystemErrorEnum.NOT_FOUND_INDEX));
         //增加文章浏览量
         stringRedisTemplate.opsForHash().increment(CacheKey.ARTICLE_BROWSE_TOTLE, id.toString(), 1);
+        //增加用户文章被浏览量
+        stringRedisTemplate.opsForHash().increment(CacheKey.ARTICLE_USER_VIEWED, articleDto.getUserId().toString(), 1);
         //文章点赞数
         Object praiseNum = Optional.ofNullable(stringRedisTemplate.opsForHash().get(CacheKey.ARTICLE_BROWSE_PRAISE, id.toString())).orElse("0");
         articleDto.setPraiseNum(Integer.valueOf(praiseNum.toString()));
