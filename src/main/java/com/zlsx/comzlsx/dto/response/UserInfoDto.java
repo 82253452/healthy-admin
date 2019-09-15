@@ -22,7 +22,7 @@ public class UserInfoDto {
     /**
      * 用户评论数
      */
-    private Long UserCommentsNum;
+    private Long userCommentsNum;
     /**
      * 用户分享数
      */
