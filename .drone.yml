@@ -16,4 +16,4 @@ steps:
     image: plugins/docker
     repo: test/test
     dockerfile: ./Dockerfile
-    tags: latest
+    tags: 1
