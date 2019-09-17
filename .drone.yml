@@ -19,12 +19,6 @@ steps:
     commands:
       - mvn install -DskipTests=true -Dmaven.javadoc.skip=true
 
-  - name: build
-    image: plugins/docker
-    repo: test/test
-    dockerfile: ./Dockerfile
-    tags: latest
-
   - name: rebuild-cache
     image: drillster/drone-volume-cache
     settings:
@@ -34,3 +28,9 @@ steps:
     volumes:
       - name: cache
         path: /cache
+
+  - name: build
+    image: plugins/docker
+    repo: test/test
+    dockerfile: ./Dockerfile
+    tags: latest
