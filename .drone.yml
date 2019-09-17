@@ -4,31 +4,13 @@ name: drone
  # base: /build
   #path: worksapce
 steps:
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    settings:
-      restore: true
-      mount:
-        - /root/.m2
-    volumes:
-      - name: cache
-        path: /cache
-
   - name: init
     image: maven:3-jdk-10
+    volumes:
+     - name: cache
+       path: /root/.m2
     commands:
       - mvn install -DskipTests=true -Dmaven.javadoc.skip=true
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    settings:
-      rebuild: true
-      mount:
-        - /root/.m2
-    volumes:
-      - name: cache
-        path: /cache
-
   - name: build
     image: plugins/docker
     repo: test/test
