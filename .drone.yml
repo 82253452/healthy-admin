@@ -17,8 +17,7 @@ steps:
   - name: init
     image: maven:3-jdk-10
     commands:
-      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B
-      - mvn test
+      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true
 
   - name: build
     image: plugins/docker
