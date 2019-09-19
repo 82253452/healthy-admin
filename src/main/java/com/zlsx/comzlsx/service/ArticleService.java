@@ -54,6 +54,8 @@ public class ArticleService {
 
     public ArticleDto getInfo(Integer id) throws ForeseenException {
         ArticleDto articleDto = Optional.ofNullable(articleMapper.selectArticleInfo(id)).orElseThrow(() -> new ShowException(SystemErrorEnum.NOT_FOUND_INDEX));
+        //增加用户行为
+        addUserBehavior(articleDto);
         //增加文章浏览量
         stringRedisTemplate.opsForHash().increment(CacheKey.ARTICLE_BROWSE_TOTLE, id.toString(), 1);
         //增加用户文章被浏览量
@@ -80,6 +82,15 @@ public class ArticleService {
         Boolean isAttented = stringRedisTemplate.opsForSet().isMember(String.format(CacheKey.ARTICLE_USER_ATTENTION, jwtUtils.getUserIdWithNoExce()), articleDto.getUserId().toString());
         articleDto.setIsAttented(isAttented);
         return articleDto;
+    }
+
+    private void addUserBehavior(ArticleDto articleDto) {
+        String userIdWithNoExce = jwtUtils.getUserIdWithNoExce();
+        if (StringUtils.isBlank(userIdWithNoExce)) {
+            return;
+        }
+        //增加用户浏览记录
+        stringRedisTemplate.opsForSet().add(String.format(CacheKey.ARTICLE_USER_BROWSE, jwtUtils.getUserIdWithNoExce()),articleDto.getId().toString());
     }
 
     public void praise(Integer id) throws ForeseenException {

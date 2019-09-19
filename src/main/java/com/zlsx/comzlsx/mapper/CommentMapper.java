@@ -21,4 +21,6 @@ public interface CommentMapper extends Mapper<Comment> {
     List<CommentDto> selectCommontByTree(GetCommentListRequest request);
 
     Comment getChildList(@Param("id") String id);
+
+    long selectUserCommentArticleNum(@Param("userId") Integer userId);
 }

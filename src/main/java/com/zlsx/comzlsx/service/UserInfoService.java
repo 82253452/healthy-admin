@@ -1,11 +1,13 @@
 package com.zlsx.comzlsx.service;
 
 import com.zlsx.comzlsx.common.JWTUtils;
+import com.zlsx.comzlsx.domain.Article;
 import com.zlsx.comzlsx.domain.Comment;
 import com.zlsx.comzlsx.domain.UserInfo;
 import com.zlsx.comzlsx.dto.enums.SystemErrorEnum;
 import com.zlsx.comzlsx.dto.response.UserInfoDto;
 import com.zlsx.comzlsx.dto.enums.ExpireTimeEnum;
+import com.zlsx.comzlsx.mapper.ArticleMapper;
 import com.zlsx.comzlsx.mapper.CommentMapper;
 import com.zlsx.comzlsx.mapper.UserInfoMapper;
 import com.zlsx.comzlsx.util.common.CacheKey;
@@ -39,6 +41,8 @@ public class UserInfoService {
     private StringRedisTemplate stringRedisTemplate;
     @Resource
     private CommentMapper commentMapper;
+    @Resource
+    private ArticleMapper articleMapper;
 
     public int batchInsert(List<UserInfo> list) {
         return userInfoMapper.batchInsert(list);
@@ -103,13 +107,12 @@ public class UserInfoService {
         Long size = stringRedisTemplate.opsForSet().size(String.format(CacheKey.ARTICLE_USER_PRAISE, userId));
         userInfoDto.setUserPraiseNum(size);
         //获取用户评论数
-        Comment comment = new Comment();
-        comment.setUserId(userId);
-        int count = commentMapper.selectCount(comment);
-        userInfoDto.setUserCommentsNum((long) count);
+        userInfoDto.setUserCommentsNum(commentMapper.selectUserCommentArticleNum(userId));
         //获取用户分享数
-        Object o = Optional.ofNullable(stringRedisTemplate.opsForHash().get(CacheKey.ARTICLE_USER_SHARE, userId.toString())).orElse(0);
-        userInfoDto.setUserShareNum(Long.valueOf(o.toString()));
+        Article article = new Article();
+        article.setUserId(userId);
+        int count1 = articleMapper.selectCount(article);
+        userInfoDto.setUserShareNum((long) count1);
         //获取用户浏览记录数
         Long size1 = stringRedisTemplate.opsForSet().size(String.format(CacheKey.ARTICLE_USER_BROWSE, userId));
         userInfoDto.setUserBrowseNum(size1);
