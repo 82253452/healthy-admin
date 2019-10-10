@@ -10,10 +10,6 @@ steps:
     volumes:
       - name: maven-cache
         path: /root/.m2
-  - name: build-dist
-    image: node:10
-    commands:
-      - npm run build
 
   - name: build
     image: plugins/docker
