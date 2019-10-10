@@ -59,7 +59,7 @@ steps:
       password: Sdfasiwek2#@8123
       port: 222
       script:
-        - cd /projects/myapp
+        - cd /projects/comapi
         - docker-compose pull
         - docker-compose up -d --force-recreate
 
