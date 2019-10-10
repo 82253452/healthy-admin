@@ -1,8 +1,5 @@
 kind: pipeline
 name: drone
-#workspace:
- # base: /build
-  #path: worksapce
 steps:
   - name: init
     image: maven:3-jdk-10
@@ -11,10 +8,3 @@ steps:
        path: /root/.m2
     commands:
       - mvn install -DskipTests=true -Dmaven.javadoc.skip=true
-
-  - name: build
-    image: plugins/docker
-    repo: test/test
-    dockerfile: ./Dockerfile
-    tags: 1
-1
