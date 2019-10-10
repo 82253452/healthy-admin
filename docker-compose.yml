@@ -4,12 +4,8 @@ networks:
     external:
       name: default-network
 services:
-  healthy:
-    container_name: healthy
-    image: yp/healthy
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
+  testadmin:
+    container_name: drone-myapp
+    image: swr.cn-north-1.myhuaweicloud.com/a82253452/comapi
     ports:
-      - 8008:8080
-    volumes:
-      - /etc/localtime:/etc/localtime
+      - 8013:8080

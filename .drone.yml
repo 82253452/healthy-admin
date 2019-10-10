@@ -1,10 +1,69 @@
 kind: pipeline
 name: drone
+
 steps:
-  - name: init
-    image: maven:3-jdk-10
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - /root/.m2
     volumes:
-     - name: cache
-       path: /root/.m2
+      - name: cache
+        path: /cache
+
+  - name: maven-install
+    image: maven:3-jdk-10
     commands:
       - mvn install -DskipTests=true -Dmaven.javadoc.skip=true
+
+  - name: build-dist
+    image: node:10
+    commands:
+      - npm run build
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - /root/.m2
+    volumes:
+      - name: cache
+        path: /cache
+
+  - name: build
+    image: plugins/docker
+    settings:
+      username: cn-north-1@8BKNSGZGCNYMTOUZR9YS
+      password: e119c7e6f7a4572454fa96f7b8b6fa34d37a00e7e16caa3274b69c0c6eeded7b
+      registry: swr.cn-north-1.myhuaweicloud.com
+      repo: swr.cn-north-1.myhuaweicloud.com/a82253452/comapi
+      auto_tag: true
+
+  - name: code-scp
+    image: appleboy/drone-scp
+    settings:
+      host: 114.115.250.201
+      username: root
+      password: Sdfasiwek2#@8123
+      port: 222
+      target: /projects/myapp
+      source: docker-compose.yml
+
+  - name: code-deploy
+    image: appleboy/drone-ssh
+    settings:
+      host: 114.115.250.201
+      username: root
+      password: Sdfasiwek2#@8123
+      port: 222
+      script:
+        - cd /projects/myapp
+        - docker-compose pull
+        - docker-compose up -d --force-recreate
+
+volumes:
+  - name: maven-cache
+    host:
+      path: /tmp/maven/cache
