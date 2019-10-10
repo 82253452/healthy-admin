@@ -8,7 +8,8 @@ steps:
     commands:
       - mvn install -DskipTests=true -Dmaven.javadoc.skip=true
     volumes:
-      - /tmp/maven/cache:/root/.m2
+      - name: maven-cache
+        path: /root/.m2
   - name: build-dist
     image: node:10
     commands:
@@ -44,4 +45,7 @@ steps:
         - cd /projects/comapi
         - docker-compose pull
         - docker-compose up -d --force-recreate
-
+volumes:
+  - name: maven-cache
+    host:
+      path: /tmp/maven/cache
