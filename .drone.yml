@@ -27,7 +27,7 @@ steps:
       username: root
       password: Sdfasiwek2#@8123
       port: 222
-      target: /projects/myapp
+      target: /projects/comapi
       source: docker-compose.yml
 
   - name: code-deploy
