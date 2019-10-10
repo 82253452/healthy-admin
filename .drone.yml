@@ -9,7 +9,7 @@ steps:
       mount:
         - /root/.m2
     volumes:
-      - name: cache
+      - name: maven-cache
         path: /cache
 
   - name: maven-install
@@ -29,7 +29,7 @@ steps:
       mount:
         - /root/.m2
     volumes:
-      - name: cache
+      - name: maven-cache
         path: /cache
 
   - name: build
