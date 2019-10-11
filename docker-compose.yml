@@ -10,7 +10,8 @@ services:
     labels:
       - traefik.http.routers.comapi.rule=Host(`zhihuizhan.net`) && PathPrefix(`/api`)
       - traefik.http.routers.comapi.tls.certresolver=mytlschallenge
-      - traefik.http.middlewares.comapi.stripprefix.prefixes=/api
+      - traefik.http.middlewares.strip-prefix.stripprefix.prefixes=/api
+      - traefik.http.routers.comapi.middlewares=strip-prefix@docker
     environment:
       SPRING_PROFILES_ACTIVE: prod
     volumes:
