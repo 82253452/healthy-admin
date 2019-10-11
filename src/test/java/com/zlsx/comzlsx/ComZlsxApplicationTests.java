@@ -22,7 +22,7 @@ public class ComZlsxApplicationTests {
 
     @Test
     public void jwtToken() {
-        String key = jwtUtils.createKey("10", "yp", "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLibOo23tSa8tUUxLe9uoBaVhjCNgLzLgZHzu9KGtS2ckuQ1FfhZ50GVCIQZnbUEXCPS4dfwXncbnQ/132", "", "oVTys5pNQ8I0BpneuVqThZnhygCo", ExpireTimeEnum.YEAR);
+        String key = jwtUtils.createKey("1", "yp", "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLibOo23tSa8tUUxLe9uoBaVhjCNgLzLgZHzu9KGtS2ckuQ1FfhZ50GVCIQZnbUEXCPS4dfwXncbnQ/132", "", "oVTys5pNQ8I0BpneuVqThZnhygCo", ExpireTimeEnum.YEAR);
         System.out.println(key);
     }
 
