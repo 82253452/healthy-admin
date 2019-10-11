@@ -5,11 +5,11 @@ networks:
       name: default-network
 services:
   comapi:
-    container_name: drone-myapp
+    container_name: comapi
     image: swr.cn-north-1.myhuaweicloud.com/a82253452/comapi
     labels:
-      - traefik.http.routers.myapp.rule=Host(`zhihuizhan.net`) && Path(`/api`)
-      - traefik.http.routers.myapp.tls.certresolver=mytlschallenge
+      - traefik.http.routers.comapi.rule=Host(`zhihuizhan.net`) && Path(`/api`)
+      - traefik.http.routers.comapi.tls.certresolver=mytlschallenge
     environment:
       SPRING_PROFILES_ACTIVE: prod
     volumes:
