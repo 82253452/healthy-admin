@@ -8,7 +8,7 @@ services:
     container_name: comapi
     image: swr.cn-north-1.myhuaweicloud.com/a82253452/comapi
     labels:
-      - traefik.http.routers.comapi.rule=Host(`zhihuizhan.net`) && PathPrefix(`/api`)
+      - traefik.http.routers.comapi.rule=Host(`zhihuizhan.net`) && PathPrefix(`/api/`)
       - traefik.http.routers.comapi.tls.certresolver=mytlschallenge
     environment:
       SPRING_PROFILES_ACTIVE: prod
