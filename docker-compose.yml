@@ -7,8 +7,9 @@ services:
   comapi:
     container_name: drone-myapp
     image: swr.cn-north-1.myhuaweicloud.com/a82253452/comapi
-    ports:
-      - 8013:8080
+    labels:
+      - traefik.http.routers.myapp.rule=Host(`zhihuizhan.net`) && Path(`/api`)
+      - traefik.http.routers.myapp.tls.certresolver=mytlschallenge
     environment:
       SPRING_PROFILES_ACTIVE: prod
     volumes:
