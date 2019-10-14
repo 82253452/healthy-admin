@@ -87,6 +87,7 @@ public class CommentService {
                 stringRedisTemplate.opsForHash().increment(CacheKey.ARTICLE_USER_COMMENT, request.getTopicId().toString(), 1);
             }
         }
+
         //增加评论
         addCommentDomain(request);
     }
