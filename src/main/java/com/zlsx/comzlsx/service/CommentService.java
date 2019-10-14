@@ -2,6 +2,7 @@ package com.zlsx.comzlsx.service;
 
 import com.github.pagehelper.PageInfo;
 import com.zlsx.comzlsx.common.JWTUtils;
+import com.zlsx.comzlsx.domain.Article;
 import com.zlsx.comzlsx.domain.Comment;
 import com.zlsx.comzlsx.dto.enums.CommentEnum;
 import com.zlsx.comzlsx.dto.enums.SystemErrorEnum;
@@ -80,9 +81,11 @@ public class CommentService {
             Optional.ofNullable(commentMapper.selectByPrimaryKey(request.getPid())).orElseThrow(() -> new ShowException(SystemErrorEnum.NOT_FOUND_INDEX));
         }
         if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(request.getTopicId())) {
-            Optional.ofNullable(articleMapper.selectByPrimaryKey(request.getTopicId())).orElseThrow(() -> new ShowException(SystemErrorEnum.NOT_FOUND_INDEX));
-            //增加评论数
-            stringRedisTemplate.opsForHash().increment(CacheKey.ARTICLE_USER_COMMENT, request.getTopicId().toString(), 1);
+            Article article = articleMapper.selectByPrimaryKey(request.getTopicId());
+            if (article != null) {
+                //增加评论数
+                stringRedisTemplate.opsForHash().increment(CacheKey.ARTICLE_USER_COMMENT, request.getTopicId().toString(), 1);
+            }
         }
         //增加评论
         addCommentDomain(request);
