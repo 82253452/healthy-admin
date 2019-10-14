@@ -14,4 +14,5 @@ public class ShopDto extends Shop {
     private String classifyName;
     private String addressName;
     private List<ShopOffer> offerList;
+    private Long commontsNum;
 }

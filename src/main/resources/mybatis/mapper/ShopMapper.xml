@@ -304,7 +304,8 @@
     <select id="selectShops" resultType="com.zlsx.comzlsx.dto.response.ShopDto">
       select s.*,
        (select name from classify where id = s.classify_id) as classifyName,
-       (select name from address where id = s.address_id)   as addressName
+       (select name from address where id = s.address_id)   as addressName ,
+      (select count(*) from comment where type ='2' and article_id=s.id)   as commontsNum
         from shop s where 1=1
       <if test="classifyId != null">
       and  classify_id = #{classifyId}
