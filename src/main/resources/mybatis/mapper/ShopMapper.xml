@@ -313,6 +313,9 @@
       <if test="addressId != null">
         and  address_id = #{addressId}
       </if>
+      <if test="sortColumn != null">
+        order by ${sortColumn} ${sortWay}
+      </if>
     </select>
     <select id="getArticleListAbout" resultType="com.zlsx.comzlsx.domain.Shop">
       SELECT *

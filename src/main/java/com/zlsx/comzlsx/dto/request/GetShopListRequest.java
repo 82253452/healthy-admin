@@ -9,4 +9,6 @@ import java.util.List;
 public class GetShopListRequest extends PageInfo {
     private Integer classifyId;
     private Integer addressId;
+    private String sortColumn;
+    private String sortWay;
 }
