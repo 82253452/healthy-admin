@@ -17,8 +17,8 @@ public class ClassifyController {
 
 
     @GetMapping("/list")
-    public Result list() throws ForeseenException {
-        List<Classify> classifies = classifyMapper.selectAll();
+    public Result list(Classify classify) throws ForeseenException {
+        List<Classify> classifies = classifyMapper.selectByExample(classify);
         return Result.ok(classifies);
     }
 
